@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import './Card2.scss'
 import { QuestionState } from '../Context/Context';
 function Card2() {

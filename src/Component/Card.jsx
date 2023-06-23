@@ -1,125 +1,58 @@
-import React from 'react';
-import  './Card.scss';
+import React, { useState } from 'react';
+import './Card.scss';
 import { QuestionState } from '../Context/Context';
-import { useState } from 'react';
+import useCardHandler from '../customHooks/useCardHandler';
 
-function Catcard() {
-  
-    const [color,setColor] = useState(null)
-    const [disable,setdisable] = useState(null)
-    const [index,setIndex] = useState(0)
-    const [total,setTotal] = useState(0)
-    const [score,setscore] = useState(0)
-    const [select,setSelect] = useState(null)
-    const {QuestionArray} = QuestionState() 
-   
-    const next = (add)=>
-    {
-        setdisable(null)
-        setSelect(null)
-        setIndex(index+1)
-        setTotal(total+add)
-        setColor(!color)
-    }
-
-    
-    const handleCheck = (option,answer,points,key)=>{
-      if(option == answer) 
-      {
-        setColor(true)
-        setSelect(key)
-        setdisable(true)
-        setscore(score+points)
-        
-      }
-
-      else
-      
-      {
-        
-        setSelect(key)
-        setdisable(true)
-        setColor(false)
-      }
-
-    }
-    
-
+function CatCard() {
+  const { QuestionArray,state } = QuestionState();
+  const [states, handleCheck, next] = useCardHandler(state);
+  const currentItem = QuestionArray[states.index];
 
   return (
     <div className="projectCard">
-      { 
-       index<=QuestionArray.length-1 ?
-            QuestionArray.slice(index,index+1).map((item)=>{
-            return(
-                  <div> 
-                      
-                      <div ><p>{index+1}.{item.question} ?</p></div>              
-                      <ul>
-                   
-                        { 
-                          item.options.map((option,key)=>{
-
-                          return(
-                            <>
-                            <div>
-                            <button onClick={()=>handleCheck(option,item.answer,item.points,key)}
-                             className={(color ? ((select === key) ? "green":""):(select === key ? "red" : ""))  }
-                             disabled={disable}>
-                        {option}
-                            </button>
-                            </div>
-                            </>
-                          )
-                        })
-                        }
-                      </ul>
-                      <span>
-                    <button className='Next' onClick={()=>next(item.points)} >Next </button>
-                    </span>
-                    <p style={{fontSize:"1rem"}}>Current Score:({score}/{total})</p>
-                    <b><p style={{color:"blue"}}>Question Point:{item.points}</p></b>
-                </div>     
-              )
-            })
-        :
-        (<><div style={{}}>
-          <h1 style={{fontSize:"2.3rem"}}>
-          { score>(total/2)?("Congratulations!"):("Sorry,better luck next time")} 
-          </h1>
-        <p style={{fontSize:"1.3rem"}}>You have scored {score} out of {total} !</p></div></>)
-      }
-  </div>
-  )
+      {states.index <= QuestionArray.length - 1 ? (
+        <div>
+          <div>
+            <p>
+              {states.index + 1}.{currentItem.question} ?
+            </p>
+          </div>
+          <ul>
+            {currentItem.options.map((option, key) => (
+              <div key={key}>
+                <button
+                  onClick={() =>handleCheck(option,currentItem.answer,currentItem.points,key)}
+                  className={states.selectedOption === key ? states.color : ''}
+                  disabled={states.disable}>
+                  {option}
+                </button>
+              </div>
+            ))}
+          </ul>
+          <span>
+            <button className="Next" onClick={() => next(currentItem.points)}>
+              Next
+            </button>
+          </span>
+          <p style={{ fontSize: '1rem' }}>Current Score:({states.score}/{states.total})</p>
+          <b>
+            <p style={{ color: 'blue' }}>Question Point:{currentItem.points}</p>
+          </b>
+        </div>
+      ) : (
+        <>
+          <div style={{}}>
+            <h1 style={{ fontSize: '2.3rem' }}>
+              {states.score > states.total / 2 ? 'Congratulations!' : 'Sorry, better luck next time'}
+            </h1>
+            <p style={{ fontSize: '1.3rem' }}>
+              You have scored {states.score} out of {states.total}!
+            </p>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
-export default Catcard
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default CatCard;

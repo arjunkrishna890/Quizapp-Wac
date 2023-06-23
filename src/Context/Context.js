@@ -1,21 +1,28 @@
-import React from "react";
-import { createContext } from "react";
-import { useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { questions } from "../data";
 
-const Question = createContext()
+const QuestionContext = createContext();
 
-const Contextprovider = ({children})=>{
-    
-    
-    const QuestionArray = questions;
+const ContextProvider = ({ children }) => {
+  const [state, setState] = useState({
+    color: null,
+    disable: null,
+    index: 0,
+    total: 0,
+    score: 0,
+    selectedOption: null
+  });
 
-    return <Question.Provider value={{QuestionArray}}>{children}</Question.Provider>
-  
-}
-export default Contextprovider;
+  const QuestionArray = questions;
 
-export const QuestionState = () =>{
-    return useContext(Question)
-}
+  return (
+    <QuestionContext.Provider value={{ QuestionArray, state, setState }}>
+      {children}
+    </QuestionContext.Provider>
+  );
+};
 
+export default ContextProvider;
+export const QuestionState = () => {
+  return useContext(QuestionContext);
+};
