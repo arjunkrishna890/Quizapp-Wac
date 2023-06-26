@@ -5,7 +5,7 @@ export const questions = [
             answer:"russia",
             options:["India","russia","China","Canada"],
             id:1,
-            points:2
+            points:1
    
     },
     {
@@ -32,8 +32,44 @@ export const questions = [
         answer:"Pythogorus",
         options:["Aristotle","Euclid","Pythogorus","Kepler"],
         id:4,
-        points:2
-   }
+        points:1
+   },
+   {
+       
+        question:"Father of nation",
+        answer:"Gandhi",
+        options:["Gandhi","Nehru","Patel","Bose"],
+        id:5,
+        points:1
+   
+},
+{
+       
+        question:"Largest State in India",
+        answer:"Rajasthan",
+        options:["Rajasthan","Kerala","Tamilnadu","Karnataka"],
+        id:6,
+        points:1
+   
+},
+{
+       
+        question:"God of cricket ",
+        answer:"Sachin",
+        options:["Sachin","Dhoni","Sewag","Raina"],
+        id:7,
+        points:1
+   
+},
+{
+       
+        question:"Fifa 2022 Winner ",
+        answer:"Argentina",
+        options:["Brazil","Argentina","Germany","England"],
+        id:8,
+        points:1
+   
+},
     
 ]
 

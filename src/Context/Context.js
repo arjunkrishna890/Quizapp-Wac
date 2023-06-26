@@ -6,6 +6,7 @@ const QuestionContext = createContext();
 const ContextProvider = ({ children }) => {
   const [state, setState] = useState({
     color: null,
+    show:false,
     disable: null,
     index: 0,
     total: 0,
